@@ -93,6 +93,7 @@ select {
 }
 
 .match-overview .score {
+  overflow: hidden;
   background: var(--secondary-color);
   color: #023321;
   min-width: 4.2rem;
@@ -209,6 +210,7 @@ select {
 }
 
 .match-details .score {
+  overflow: hidden;
   color: #f7fafc;
   background: var(--primary-color);
   color: var(--secondary-color);
@@ -347,4 +349,40 @@ button.sub {
 
 .menu .time-control-wrapper h3 {
   grid-column: span 2;
+}
+
+.team-name-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-name-input input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+@keyframes scoreIncrease {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(100%); }
+  51% { transform: translateY(-100%); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes scoreDecrease {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-100%); }
+  51% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+.animate-score-increase {
+  animation: scoreIncrease 0.5s ease-in-out;
+}
+
+.animate-score-decrease {
+  animation: scoreDecrease 0.5s ease-in-out;
 }
