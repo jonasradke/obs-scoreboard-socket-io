@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Control Panel</title>
     <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
     <script defer src="app.js"></script>
 </head>
 
 <body>
-
+    <!-- LOGO -->
+    <img id="logo" src="../assets/logo.png" alt="Logo" class="hidden">
     <main>
     <!-- MATCH OVERVIEW -->
     <div class="container match-overview">
@@ -54,10 +55,13 @@
     <section class="controls">
     <!-- MENU -->
     <div class="menu">
-            <div class="menu-details">
-                <h3>Details<br>Control</h3>
-                <button class="btn-toggle-details">Toggle</button>
-            </div>
+        <div class="menu-details">
+            <h3>Controls</h3>
+            <button class="btn-toggle-details">Details</button>
+            <button class="btn-toggle-scoreboard">Scoreboard</button>
+            <button class="btn-toggle-logo">Logo</button>
+        </div>
+        
 
         <!-- SCORES HOME -->
         <div class="menu-score" data-target="score-team-home">

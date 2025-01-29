@@ -24,7 +24,9 @@ let state = {
     timeout: {
         home: false,
         away: false
-    }
+    },
+    scoreboardVisible: true,
+    logoVisible: true
 };
 
 io.on('connection', (socket) => {
@@ -49,10 +51,19 @@ io.on('connection', (socket) => {
         io.emit('score:change', team, action);
     });
 
-    socket.on('timeout:toggle', team => {
+    socket.on('timeout:toggle', (team) => {
         console.log('timeout:toggle', team);
-        state.timeout[team] = !state.timeout[team];
-        io.emit('timeout:toggle', team);
+
+        if (team === 'home') {
+        state.timeout.home = !state.timeout.home;
+        if (state.timeout.home) state.timeout.away = false;
+        }
+        else {
+        state.timeout.away = !state.timeout.away;
+        if (state.timeout.away) state.timeout.home = false;
+        }
+
+        io.emit('state:update', state);
     });
 
     socket.on('time:change', (action, value) => {
@@ -78,6 +89,32 @@ io.on('connection', (socket) => {
                 break;
         }
         io.emit('time:update', state.time, state.timeRunning);
+    });
+
+    socket.on('scoreboard:toggle', () => {
+        console.log('scoreboard:toggle');
+        const wasVisible = state.scoreboardVisible;
+
+        if (wasVisible && (state.timeout.home || state.timeout.away)) {
+          state.timeout.home = false;
+          state.timeout.away = false;
+          io.emit('state:update', state);
+      
+          setTimeout(() => {
+            state.scoreboardVisible = false;
+            io.emit('state:update', state);
+          }, 400);
+      
+        } else {
+          state.scoreboardVisible = !wasVisible;
+          io.emit('state:update', state);
+        }
+    });
+
+    socket.on('logo:toggle', () => {
+        console.log('logo:toggle');
+        state.logoVisible = !state.logoVisible;
+        io.emit('state:update', state); 
     });
 
     socket.on('name:change', (team, value) => {

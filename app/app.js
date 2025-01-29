@@ -20,6 +20,8 @@ const inputs = {
     nameInputs: document.querySelectorAll('.inp_teamName'),
     colorInputs: document.querySelectorAll('.inp_teamColor'),
     toggleDetails: document.querySelector('.btn-toggle-details'),
+    toggleScoreboard: document.querySelector('.btn-toggle-scoreboard'),
+    toggleLogo: document.querySelector('.btn-toggle-logo')
 };
 
 const labels = {
@@ -81,6 +83,14 @@ inputs.toggleDetails.addEventListener('click', () => {
     socket.emit('details:toggle');
 });
 
+inputs.toggleScoreboard.addEventListener('click', () => {
+    socket.emit('scoreboard:toggle');
+  });
+
+inputs.toggleLogo.addEventListener('click', () => {
+    socket.emit('logo:toggle');
+  });
+
 // LISTENERS
 
 socket.on('state:update', (state) => {
@@ -93,6 +103,8 @@ socket.on('state:update', (state) => {
     updateTeamNames(state.teamNames);
     updateTeamColors(state.teamColors);
     toggleDetails(state.detailsVisible);
+    toggleScoreboard(state.scoreboardVisible);
+    toggleLogo(state.logoVisible);
     updateTimeoutIndicators(state.timeout);
 });
 
@@ -210,6 +222,10 @@ socket.on('details:toggle', () => {
     document.querySelector('.match-details').classList.toggle('clear');
 });
 
+socket.on('scoreboard:toggle', (visible) => {
+    toggleScoreboard(visible);
+});
+
 socket.on('time:update', (updatedTime, isRunning) => {
     time = updatedTime;
     timeRunning = isRunning;
@@ -305,6 +321,29 @@ function toggleDetails(visible) {
         document.querySelector('.match-details').classList.remove('clear');
     } else {
         document.querySelector('.match-details').classList.add('clear');
+    }
+}
+
+function toggleScoreboard(visible) {
+    const overview = document.querySelector('.match-overview');
+    if (!overview) return;
+  
+    if (visible) {
+
+      overview.classList.remove('hide-scoreboard');
+    } else {
+      overview.classList.add('hide-scoreboard'); 
+    }
+}
+
+function toggleLogo(visible) {
+    const logo = document.getElementById('logo');
+    if (!logo) return;
+
+    if (visible) {
+        logo.classList.remove('hidden');
+    } else {
+        logo.classList.add('hidden');
     }
 }
 
