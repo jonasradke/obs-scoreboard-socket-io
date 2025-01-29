@@ -9,7 +9,6 @@ let scores = {
 }
 
 initTeamSelect();
-beat();
 
 // TRIGGERS
 
@@ -249,22 +248,6 @@ function initTeamSelect() {
             placeholderElement.insertAdjacentElement('beforeEnd', option.cloneNode(true));
         });
     });
-}
-
-function beat() {
-    window.setInterval(() => {
-        if (timeRunning) time -= 1;
-        if (time < 1) {
-            indicators.overtime.classList.remove('clear');
-            indicators.notification.classList.remove('clear');
-        };
-
-        minutes = Math.floor(Math.abs(time / 60));
-        seconds = Math.floor(Math.abs(time % 60));
-
-        labels.minutes.textContent = `0${minutes}`.slice(-2);
-        labels.seconds.textContent = `0${seconds}`.slice(-2);
-    }, 1000);
 }
 
 function handleTimeStartButtonLabel() {
